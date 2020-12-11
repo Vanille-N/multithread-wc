@@ -28,5 +28,19 @@ int main (int argc, char** argv) {
     }
     if (file == NULL) invalid("Not enough positional arguments\n", WR_ARG);
     if (mode == 0) mode = 'w'; // default is -w
-    printf("Treat %s with mode %c\n", file, mode);
+
+    if (access(file, R_OK) == 0) {
+        switch (mode) {
+            case 'c': {
+                int n = count_bytes(file);
+                printf("%d %s\n", n, file);
+                return 0;
+            }
+            case 'w': invalid("Not yet implemented\n", 0);
+            case 'l': invalid("Not yet implemented\n", 0);
+        }
+    } else {
+        invalid("File does not exist\n", WR_FILE);
+    }
+    return 0; // unreachable
 }

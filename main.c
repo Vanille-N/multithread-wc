@@ -34,13 +34,21 @@ int main (int argc, char** argv) {
             case 'c': {
                 int n = count_bytes(file);
                 printf("%d %s\n", n, file);
-                return 0;
+                break;
             }
-            case 'w': invalid("Not yet implemented\n", 0);
-            case 'l': invalid("Not yet implemented\n", 0);
+            case 'w': {
+                int n = count_words(file);
+                printf("%d %s\n", n, file);
+                break;
+            }
+            case 'l': {
+                int n = count_lines(file);
+                printf("%d %s\n", n, file);
+                break;
+            }
         }
     } else {
         invalid("File does not exist\n", WR_FILE);
     }
-    return 0; // unreachable
+    return 0;
 }

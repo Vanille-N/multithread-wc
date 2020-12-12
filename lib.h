@@ -12,4 +12,7 @@
 int count_bytes (const char* file);
 
 int count_lines (const char* file);
+
+int count_words (const char* file);
+
 #endif

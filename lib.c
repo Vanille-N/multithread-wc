@@ -15,7 +15,7 @@ void* count_lines (void* data) {
     lseek(fd, zone->start, SEEK_CUR);
     char buf [BUFSIZE];
     int length = zone->end - zone->start;
-    zone->count = 0;
+    int count = 0;
 
     // count by BUFSIZE intervals
     while (length > 0) {
@@ -23,13 +23,14 @@ void* count_lines (void* data) {
         // printf("<<%s>>", buf);
         int iter = BUFSIZE < length ? BUFSIZE : length;
         for (int i = 0; i < iter; i++) {
-            if (buf[i] == '\n') zone->count++;
+            if (buf[i] == '\n') count++;
         }
         length -= BUFSIZE;
     }
 
     // terminate
     close(fd);
+    zone->count = count;
     pthread_exit(NULL);
 }
 
@@ -49,7 +50,7 @@ void* count_words (void* data) {
     lseek(fd, zone->start, SEEK_CUR);
     char buf [BUFSIZE];
     int length = zone->end - zone->start;
-    zone->count = 0;
+    int count = 0;
     int prev_blank = 1;
 
     // count by BUFSIZE intervals
@@ -62,7 +63,7 @@ void* count_words (void* data) {
             if (is_endword(buf[i])) {
                 if (!prev_blank) {
                     prev_blank = 1;
-                    zone->count++;
+                    count++;
                     // printf("At %d-%d: counted word\n", zone->start, zone->end);
                     // printf("'%c' (%d) at %d is the end of a word\n", buf[i-1], buf[i-1], zone->end - length);
                 }
@@ -79,11 +80,12 @@ void* count_words (void* data) {
         // printf("At %d-%d: check first char of next zone\n", zone->start, zone->end);
         if (is_endword(c)) {
             // printf("At %d-%d: yup, '%c' (%d) is the end of a word\n", zone->start, zone->end, c, c);
-            zone->count++;
+            count++;
         }
     }
 
     // terminate
     close(fd);
+    zone->count = count;
     pthread_exit(NULL);
 }

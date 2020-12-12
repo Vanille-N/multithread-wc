@@ -1,7 +1,7 @@
 #ifndef LIB_H
 #define LIB_H
 
-#define BUFSIZE 10000
+#define BUFSIZE (32 * 1024)
 
 #include <unistd.h>
 #include <fcntl.h>

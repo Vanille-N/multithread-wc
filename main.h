@@ -7,6 +7,7 @@
 #include <unistd.h>
 
 #include "lib.h"
+#include "dispatch.h"
 
 #define WR_OPT 1
 #define WR_ARG 2

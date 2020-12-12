@@ -1,7 +1,6 @@
 #ifndef LIB_H
 #define LIB_H
 
-#define NB_THREADS 5
 #define BUFSIZE 10000
 
 #include <unistd.h>
@@ -9,10 +8,12 @@
 #include <pthread.h>
 #include <stdio.h>
 
+#include "dispatch.h"
+
 int count_bytes (const char* file);
 
-int count_lines (const char* file);
+void* count_lines (void* data);
 
-int count_words (const char* file);
+void* count_words (void* data);
 
 #endif

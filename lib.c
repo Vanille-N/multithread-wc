@@ -7,19 +7,8 @@ int count_bytes (const char* file) {
     return pos;
 }
 
-// tells a thread what he should do
-typedef struct {
-    const char* file; // what file to read
-    int start; // where to start reading
-    int end; // where to end
-    int count; // return value = count
-} zone_t;
-
-zone_t zones [NB_THREADS];
-pthread_t counters [NB_THREADS];
-
 // A line is any number of characters followed by a '\n'
-void* lines_in_zone (void* data) {
+void* count_lines (void* data) {
     // open file and init variables
     zone_t* zone = (zone_t*)data;
     int fd = open(zone->file, O_RDONLY, 0444);
@@ -44,26 +33,6 @@ void* lines_in_zone (void* data) {
     pthread_exit(NULL);
 }
 
-int count_lines (const char* file) {
-    // open to determine length -> distribution of ranges
-    int fd = open(file, O_RDONLY, 0444);
-    int length = lseek(fd, 0, SEEK_END);
-    close(fd);
-
-    // launch threads
-    for (int i = 0; i < NB_THREADS; i++) {
-        zones[i].file = file;
-        zones[i].start = (i * length) / NB_THREADS;
-        zones[i].end = ((i+1) * length) / NB_THREADS;
-        pthread_create(&counters[i], NULL, lines_in_zone, (void*)&zones[i]);
-    }
-
-    // terminate threads and calculate sum
-    int sum = 0;
-    for (int i = 0; i < NB_THREADS; i++) pthread_join(counters[i], NULL);
-    for (int i = 0; i < NB_THREADS; i++) sum += zones[i].count;
-    return sum;
-}
 
 int is_endword (char c) {
     switch (c) {
@@ -73,7 +42,7 @@ int is_endword (char c) {
 }
 
 // A word is any non-is_endword() followed by a is_endword()
-void* words_in_zone (void* data) {
+void* count_words (void* data) {
     // open file and init variables
     zone_t* zone = (zone_t*)data;
     int fd = open(zone->file, O_RDONLY, 0444);
@@ -117,25 +86,4 @@ void* words_in_zone (void* data) {
     // terminate
     close(fd);
     pthread_exit(NULL);
-}
-
-int count_words (const char* file) {
-    // open to determine length -> distribution of ranges
-    int fd = open(file, O_RDONLY, 0444);
-    int length = lseek(fd, 0, SEEK_END);
-    close(fd);
-
-    // launch threads
-    for (int i = 0; i < NB_THREADS; i++) {
-        zones[i].file = file;
-        zones[i].start = (i * length) / NB_THREADS;
-        zones[i].end = ((i+1) * length) / NB_THREADS;
-        pthread_create(&counters[i], NULL, words_in_zone, (void*)&zones[i]);
-    }
-
-    // terminate threads and calculate sum
-    int sum = 0;
-    for (int i = 0; i < NB_THREADS; i++) pthread_join(counters[i], NULL);
-    for (int i = 0; i < NB_THREADS; i++) sum += zones[i].count;
-    return sum;
 }

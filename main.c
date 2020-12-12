@@ -37,12 +37,12 @@ int main (int argc, char** argv) {
                 break;
             }
             case 'w': {
-                int n = count_words(file);
+                int n = dispatch(file, count_words);
                 printf("%d %s\n", n, file);
                 break;
             }
             case 'l': {
-                int n = count_lines(file);
+                int n = dispatch(file, count_lines);
                 printf("%d %s\n", n, file);
                 break;
             }

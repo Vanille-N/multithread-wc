@@ -4,7 +4,7 @@ bin: mwc
 
 %.c: %.h
 
-NAMES=main lib
+NAMES=main lib dispatch
 CFILES=$(addsuffix .c, $(NAMES))
 HFILES=$(addsuffix .h, $(NAMES))
 

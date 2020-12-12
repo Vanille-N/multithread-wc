@@ -1,7 +1,8 @@
 #!/bin/bash
 
-f='benches/rnd.plain'
+input='benches/rnd.plain'
+execs=( 'wc' './mwc-handout' 'mwc-5-1000' )
 
-hyperfine --warmup 5 "wc -w $f" "./target -w $f" "./mwc -w $f"
+hyperfine --warmup 2 "${execs[@]/%/ -w ${input}}"
 # hyperfine "wc -l $f" "./target -l $f" "./mwc -l $f"
 # hyperfine "wc -c $f" "./target -c $f" "./mwc -c $f"

@@ -4,14 +4,16 @@ bin: mwc
 
 %.c: %.h
 
-mwc: main.c lib.c main.h lib.h
-	gcc -O3 -o $@ -pthread $^ -Wall -Werror -Wpedantic
+NAMES=main lib
+CFILES=$(addsuffix .c, $(NAMES))
+HFILES=$(addsuffix .h, $(NAMES))
+
+
+mwc: $(CFILES) $(HFILES)
+	gcc -O3 -o mwc -pthread $(CFILES) -Wall -Werror -Wpedantic
 
 tests: mwc
-	BIN=./$< tests/test.sh
+	BIN=./mwc tests/test.sh
 
-clean:
-	rm mwc
-
-bench: mwc
-	BIN=./$< benches/bench.py
+bench:
+	./benches/bench.sh

@@ -7,7 +7,7 @@ pthread_t counters [NB_THREADS];
 int dispatch (const char* file, void* counter (void*)) {
     // open to determine length -> distribution of ranges
     int fd = open(file, O_RDONLY, 0444);
-    int length = lseek(fd, 0, SEEK_END);
+    long long length = lseek(fd, 0, SEEK_END);
     close(fd);
 
     // launch threads

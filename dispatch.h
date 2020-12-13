@@ -13,7 +13,7 @@ typedef struct {
     const char* file; // what file to read
     int start; // where to start reading
     int end; // where to end
-    int count; // return value = count
+    int count; // return value
 } zone_t;
 
 int dispatch (const char* file, void* counter (void*));

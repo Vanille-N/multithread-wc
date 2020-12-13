@@ -20,7 +20,6 @@ void* count_lines (void* data) {
     // count by BUFSIZE intervals
     while (length > 0) {
         read(fd, buf, BUFSIZE);
-        // printf("<<%s>>", buf);
         int iter = BUFSIZE < length ? BUFSIZE : length;
         for (int i = 0; i < iter; i++) {
             if (buf[i] == '\n') count++;
@@ -37,7 +36,7 @@ void* count_lines (void* data) {
 
 int is_endword (char c) {
     switch (c) {
-        case ' ': case '\t': case '\n': case EOF: case 0: return 1;
+        case ' ': case '\t': case '\n': return 1;
         default: return 0;
     }
 }
@@ -57,15 +56,11 @@ void* count_words (void* data) {
     while (length > 0) {
         int iter = BUFSIZE < length ? BUFSIZE : length;
         read(fd, buf, iter);
-        // printf("<<%s>>", buf);
         for (int i = 0; i < iter; i++) {
-            // printf("At %d-%d: reading '%c' <%d>\n", zone->start, zone->end, buf[i], buf[i]);
             if (is_endword(buf[i])) {
                 if (!prev_blank) {
                     prev_blank = 1;
                     count++;
-                    // printf("At %d-%d: counted word\n", zone->start, zone->end);
-                    // printf("'%c' (%d) at %d is the end of a word\n", buf[i-1], buf[i-1], zone->end - length);
                 }
             } else {
                 prev_blank = 0;
@@ -77,9 +72,7 @@ void* count_words (void* data) {
         // last character of the zone could be the end of a word
         char c;
         read(fd, &c, 1);
-        // printf("At %d-%d: check first char of next zone\n", zone->start, zone->end);
-        if (is_endword(c)) {
-            // printf("At %d-%d: yup, '%c' (%d) is the end of a word\n", zone->start, zone->end, c, c);
+        if (is_endword(c) || c == EOF || c == 0) {
             count++;
         }
     }

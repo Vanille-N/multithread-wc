@@ -5,25 +5,25 @@ verify() {
     wit="$($WITNESS -w "$f")"
     bin="$($BIN -w "$f")"
     if [[ "$wit" != "$bin" ]]; then
-        echo -e "\t\x1b[31m[ERROR]\x1b[0m ${f}: Word count mismatch"
-        echo -e "\t\tWitness: $wit"
-        echo -e "\t\tBin: $bin"
+        echo -e "\t\x1b[31m[KO]\x1b[0m ${f}: Word count mismatch"
+        echo -e "\t\tWitness: <<$wit>>"
+        echo -e "\t\tBin: <<$bin>>"
         exit 1
     fi
     wit="$($WITNESS -l "$f")"
     bin="$($BIN -l "$f")"
     if [[ "$wit" != "$bin" ]]; then
-        echo -e "\t\x1b[31m[ERROR]\x1b[0m ${f}: Line count mismatch"
-        echo -e "\t\tWitness: $wit"
-        echo -e "\t\tBin: $bin"
+        echo -e "\t\x1b[31m[KO]\x1b[0m ${f}: Line count mismatch"
+        echo -e "\t\tWitness: <<$wit>>"
+        echo -e "\t\tBin: <<$bin>>"
         exit 1
     fi
     wit="$($WITNESS -c "$f")"
     bin="$($BIN -c "$f")"
     if [[ "$wit" != "$bin" ]]; then
-        echo -e "\t\x1b[31m[ERROR]\x1b[0m ${f}: Character count mismatch"
-        echo -e "\t\tWitness: $wit"
-        echo -e "\t\tBin: $bin"
+        echo -e "\t\x1b[31m[KO]\x1b[0m ${f}: Character count mismatch"
+        echo -e "\t\tWitness: <<$wit>>"
+        echo -e "\t\tBin: <<$bin>>"
         exit 1
     fi
     echo -e "\t\x1b[32m[OK]\x1b[0m Passed test $f"

@@ -12,8 +12,8 @@ HFILES=$(addsuffix .h, $(NAMES))
 mwc: $(CFILES) $(HFILES)
 	gcc -O3 -o mwc -pthread $(CFILES) -Wall -Werror -Wpedantic
 
-tests: mwc
-	BIN=./mwc tests/test.sh
+test: mwc
+	BIN=./mwc WITNESS=./mwc-handout tests/test.sh
 
 bench:
 	./benches/bench.sh

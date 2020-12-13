@@ -1,20 +1,45 @@
 #!/usr/bin/env bash
 
-for f in tests/*.plain
-do
-    if [[ "$(wc -w "$f")" != "$($BIN "$f")" ]]
-    then
-        echo "[ERROR] ${f}: Word count mismatch"
+verify() {
+    f="$1"
+    wit="$($WITNESS -w "$f")"
+    bin="$($BIN -w "$f")"
+    if [[ "$wit" != "$bin" ]]; then
+        echo -e "\t\x1b[31m[ERROR]\x1b[0m ${f}: Word count mismatch"
+        echo -e "\t\tWitness: $wit"
+        echo -e "\t\tBin: $bin"
         exit 1
     fi
-    if [[ "$(wc -l "$f")" != "$($BIN -l "$f")" ]]
-    then
-        echo "[ERROR] ${f}: Line count mismatch"
+    wit="$($WITNESS -l "$f")"
+    bin="$($BIN -l "$f")"
+    if [[ "$wit" != "$bin" ]]; then
+        echo -e "\t\x1b[31m[ERROR]\x1b[0m ${f}: Line count mismatch"
+        echo -e "\t\tWitness: $wit"
+        echo -e "\t\tBin: $bin"
         exit 1
     fi
-    if [[ "$(wc -c "$f")" != "$($BIN -c "$f")" ]]
-    then
-        echo "[ERROR] ${f}: Character count mismatch"
+    wit="$($WITNESS -c "$f")"
+    bin="$($BIN -c "$f")"
+    if [[ "$wit" != "$bin" ]]; then
+        echo -e "\t\x1b[31m[ERROR]\x1b[0m ${f}: Character count mismatch"
+        echo -e "\t\tWitness: $wit"
+        echo -e "\t\tBin: $bin"
         exit 1
     fi
+    echo -e "\t\x1b[32m[OK]\x1b[0m Passed test $f"
+}
+
+echo "Fixed tests"
+for f in tests/*.plain; do
+    verify "$f"
 done
+echo -e "All fixed tests passed\n"
+
+echo "Random tests"
+for size in {0..100000..5000}; do
+    f="tests/rnd.$size.plain"
+    < /dev/urandom tr -dc '\n\t [:alnum:]' | head -c$size > "$f"
+    verify "$f"
+    rm "$f"
+done
+echo -e "All random tests passed\n"

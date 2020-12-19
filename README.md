@@ -66,3 +66,23 @@ int dispatch (const char* file, void* counter (void*));
 A `zone_t` describes the work each thread has to do : `file` is the name of the file they have to open, `start` and `end` delimit the area of the file they have to consider, `count` serves as a return value.
 
 Threads have no obligation to check that the file exists or to ensure their zone is valid (`0 <= start <= end <= size(file)`), it is `dispatch`'s role to ensure they are.
+
+### `lib.c`
+
+```
+#define BUFSIZE (32 * 1024)
+
+int count_bytes (const char* file);
+
+void* count_lines (void* data);
+
+void* count_words (void* data);
+```
+Lowering `BUFSIZE` too much may decrease performance because of too many system calls and bounds checks.
+Conversely, raising it may increase memory consumption.
+
+`count_bytes` opens the file and returns its length (uses `lseek`, very fast).
+
+`count_lines` interpretes its argument as a `zone_t*` and counts the number of `'\n'` in the zone it was assigned.
+
+`count_words` splits on `' '`, `'\t'`, `'\n'`. It may read a single char outside of its zone to check if the last letters of its zone constitute a word.

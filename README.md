@@ -77,8 +77,8 @@ More precisely, `dispatch` :
 
 ### `lib.c`
 
-```
-#define BUFSIZE (32 * 1024)
+```c
+#define BUFSIZE (16 * 1024)
 
 int count_bytes (const char* file);
 
@@ -90,6 +90,13 @@ Lowering `BUFSIZE` too much may decrease performance because of too many system 
 Conversely, raising it may increase memory consumption.
 
 `count_bytes` opens the file and returns its length (uses `lseek`, very fast).
+
+```
+fun count_bytes(file)
+    open f as fd
+    go to end of fd
+    return position of cursor in fd
+```
 
 `count_lines` interpretes its argument as a `zone_t*` and counts the number of `'\n'` in the zone it was assigned.
 

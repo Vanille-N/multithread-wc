@@ -67,6 +67,14 @@ A `zone_t` describes the work each thread has to do : `file` is the name of the 
 
 Threads have no obligation to check that the file exists or to ensure their zone is valid (`0 <= start <= end <= size(file)`), it is `dispatch`'s role to ensure they are.
 
+More precisely, `dispatch` :
+- determines the length of the file
+- divides it evenly between the wanted number of threads
+- sets up each `zone_t`
+- launches one instance of the counter given as second argument per zone
+- waits for thread termination
+- sums up all results
+
 ### `lib.c`
 
 ```

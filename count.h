@@ -1,5 +1,5 @@
-#ifndef LIB_H
-#define LIB_H
+#ifndef COUNT_H
+#define COUNT_H
 
 #define BUFSIZE (32 * 1024)
 

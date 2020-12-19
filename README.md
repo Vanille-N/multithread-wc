@@ -14,8 +14,8 @@ Count (w)ords, (l)ines or (c)hars in FILE.
 ```
 ──┐
   ├── main.c              argument parsing, calls dispatch
-  ├── dispatch.c          thread management, calls lib
-  ├── lib.c               counters
+  ├── dispatch.c          thread management, calls count
+  ├── count.c             counters
   ├── *.h
   ├── Makefile
   ├── tests               correction
@@ -86,3 +86,9 @@ Conversely, raising it may increase memory consumption.
 `count_lines` interpretes its argument as a `zone_t*` and counts the number of `'\n'` in the zone it was assigned.
 
 `count_words` splits on `' '`, `'\t'`, `'\n'`. It may read a single char outside of its zone to check if the last letters of its zone constitute a word.
+
+## Utils
+
+### `test.sh`
+### `bench.sh`
+### `testmake.sh`

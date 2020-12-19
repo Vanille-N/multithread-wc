@@ -6,7 +6,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#include "lib.h"
+#include "count.h"
 #include "dispatch.h"
 
 #define WR_OPT 1

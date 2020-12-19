@@ -1,4 +1,4 @@
-#include "lib.h"
+#include "count.h"
 
 int count_bytes (const char* file) {
     int fd = open(file, O_RDONLY, 0444);

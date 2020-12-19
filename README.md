@@ -113,6 +113,27 @@ fun count_lines(file, start, end)
 
 `count_words` splits on `' '`, `'\t'`, `'\n'`. It may read a single char outside of its zone to check if the last letters of its zone constitute a word.
 
+It counts a word when it finds a separator or the end of the file directly after one of the characters in its zone.
+
+```
+fun count_words(file, start, end)
+    open file as fd
+    jump to start in fd
+    n <- 0
+    prev_blank = true
+    for char c until end in fd
+        if c is a separator
+            if not prev_blank
+                prev_blank = true
+                incr n
+        else
+            prev_blank = false
+    if not prev_blank
+        c <- next char of fd
+        if c is a separator
+            incr n
+    return n
+```
 ## Utils
 
 ### `test.sh`

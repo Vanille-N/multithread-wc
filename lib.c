@@ -19,8 +19,8 @@ void* count_lines (void* data) {
 
     // count by BUFSIZE intervals
     while (length > 0) {
-        read(fd, buf, BUFSIZE);
         int iter = BUFSIZE < length ? BUFSIZE : length;
+        read(fd, buf, iter);
         for (int i = 0; i < iter; i++) {
             if (buf[i] == '\n') count++;
         }

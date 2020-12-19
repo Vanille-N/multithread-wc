@@ -100,6 +100,17 @@ fun count_bytes(file)
 
 `count_lines` interpretes its argument as a `zone_t*` and counts the number of `'\n'` in the zone it was assigned.
 
+```
+fun count_lines(file, start, end)
+    open file as fd
+    jump to start in fd
+    n <- 0
+    for char c until end in fd
+        if c == '\n'
+            incr n
+    return n
+```
+
 `count_words` splits on `' '`, `'\t'`, `'\n'`. It may read a single char outside of its zone to check if the last letters of its zone constitute a word.
 
 ## Utils

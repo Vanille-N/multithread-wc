@@ -134,6 +134,23 @@ fun count_words(file, start, end)
             incr n
     return n
 ```
+
+Example:
+```
+|  thread 1  |  thread 2  |  thread 3   |
+aaaaa a  aaaa a aaaaaaa aaaa a a a a a a
+     ^ ^     ^ ^       ^    ^ ^ ^ ^ ^ ^ ^
+     1 1     1 2       2    3 3 3 3 3 3 3
+```
+The last word of zone 1 has its end in the zone 1 but the separator in zone 2: thread 1 reads the first character of zone 2.
+
+The first word of zone 3 had already begun in zone 2, but was not counted by thread 2.
+
+The last word of zone 3 ends with an EOF and is counted by thread 3.
+
+All the other words are fully inside their zone, and are counted by their respective thread.
+
+
 ## Utils
 
 ### `test.sh`

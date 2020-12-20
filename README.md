@@ -153,6 +153,12 @@ All the other words are fully inside their zone, and are counted by their respec
 
 ## Utils
 
+### `make` targets
+
+- `make` builds `mwc`
+- `make test` executes correction tests (see `test.sh`)
+- `make bench` executes performance tests (see `bench.sh`)
+
 ### `test.sh`
 ### `bench.sh`
 ### `testmake.sh`

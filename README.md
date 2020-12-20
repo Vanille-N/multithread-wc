@@ -176,3 +176,12 @@ Those files are not provided with the code, but can be generated with `testmake.
 The source code of `bench.sh` needs to be changed to chose which commands to compare and on which files.
 
 ### `testmake.sh`
+
+Recommended usage:
+```
+$ cd benches
+$ ./testmake.sh 1000000 > rnd.1M.plain
+$ ./testmake.sh 10000000 > rnd.10M.plain
+$ ./testmake.sh 100000000 > rnd.100M.plain
+$ ./testmake.sh 1000000000 > rnd.1G.plain
+```

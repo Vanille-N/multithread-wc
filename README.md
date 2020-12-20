@@ -168,4 +168,11 @@ Random tests are generated on the fly with sizes from `0B` to `100kB`. They are 
 For both fixed and random tests, `mwc` is checked against the binary we were given and that defines the behavior: `mwc-handout`.
 
 ### `bench.sh`
+
+`bench.sh` uses [hyperfine](https://github.com/sharkdp/hyperfine) to accurately compare the performance of `mwc`, `mwc-handout` and `wc` on files typically `1M` to `1G` in size.
+
+Those files are not provided with the code, but can be generated with `testmake.sh`.
+
+The source code of `bench.sh` needs to be changed to chose which commands to compare and on which files.
+
 ### `testmake.sh`

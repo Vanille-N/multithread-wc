@@ -75,7 +75,7 @@ More precisely, `dispatch` :
 - waits for thread termination
 - sums up all results
 
-### `lib.c`
+### `count.c`
 
 ```c
 #define BUFSIZE (16 * 1024)

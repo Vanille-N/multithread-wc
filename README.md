@@ -160,5 +160,12 @@ All the other words are fully inside their zone, and are counted by their respec
 - `make bench` executes performance tests (see `bench.sh`)
 
 ### `test.sh`
+
+Fixed tests are chosen for edge cases. They purposefully contain many consecutive spaces, long words, empty lines, etc...
+
+Random tests are generated on the fly with sizes from `0B` to `100kB`. They are meant to ensure the program behaves correctly in a wide range of conditions.
+
+For both fixed and random tests, `mwc` is checked against the binary we were given and that defines the behavior: `mwc-handout`.
+
 ### `bench.sh`
 ### `testmake.sh`

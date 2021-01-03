@@ -1,12 +1,13 @@
 #ifndef COUNT_H
 #define COUNT_H
 
-#define BUFSIZE (32 * 1024)
+#define BUFSIZE (64 * 1024)
 
 #include <unistd.h>
 #include <fcntl.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "dispatch.h"
 

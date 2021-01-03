@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <stdio.h>
 
-#define NB_THREADS 5
+#define NB_THREADS 4
 
 // tells a thread what he should do
 typedef struct {

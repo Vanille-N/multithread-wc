@@ -29,7 +29,7 @@ int main (int argc, char** argv) {
     if (file == NULL) invalid("Not enough positional arguments\n", WR_ARG);
     if (mode == 0) mode = 'w'; // default is -w
 
-    if (access(file, R_OK) == 0) {
+    if (access(file, R_OK) == 0) { // thanks to this we don't have to handle errors for open()
         switch (mode) {
             case 'c': {
                 int n = count_bytes(file);

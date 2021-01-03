@@ -55,7 +55,8 @@ void* count_words (void* data) {
     // count by BUFSIZE intervals
     while (length > 0) {
         int iter = BUFSIZE < length ? BUFSIZE : length;
-        read(fd, buf, iter);
+        int err = read(fd, buf, iter);
+        if (err != 0) { perror("Failed to read: "); exit(err); }
         for (int i = 0; i < iter; i++) {
             if (is_endword(buf[i])) {
                 if (!prev_blank) {
@@ -71,7 +72,8 @@ void* count_words (void* data) {
     if (!prev_blank) {
         // last character of the zone could be the end of a word
         char c;
-        read(fd, &c, 1);
+        int err = read(fd, &c, 1);
+        if (err != 0) { perror("Failed to read: "); exit(err); }
         if (is_endword(c) || c == EOF || c == 0) {
             count++;
         }

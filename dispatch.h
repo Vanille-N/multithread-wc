@@ -1,3 +1,11 @@
+/*  A generic dispatch method:
+    takes a file and a counter function,
+    then splits the file into same-length chunks and
+    spins up one thread for each zone, with the counting method
+    passed as argument.
+
+ */
+
 #ifndef DISPATCH_H
 #define DISPATCH_H
 

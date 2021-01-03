@@ -1,3 +1,10 @@
+/*  Counters: take information on the target file
+    and the zone they have to handle, and yield the count
+    of various elements within that area.
+    BUFSIZE determines the length of the static buffers
+    used to read the file.
+ */
+
 #ifndef COUNT_H
 #define COUNT_H
 

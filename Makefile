@@ -12,7 +12,7 @@ HFILES=$(addsuffix .h, $(NAMES))
 mwc: $(CFILES) $(HFILES)
 	gcc -O3 -o mwc -pthread $(CFILES) -Wall -Werror -Wpedantic
 
-test: mwc
+tests: mwc
 	BIN=./mwc WITNESS=./mwc-handout tests/test.sh
 
 bench:

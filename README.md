@@ -7,8 +7,6 @@ $ mwc [-w|-l|-c] FILE
 
 Count (w)ords, (l)ines or (c)hars in FILE.
 
-![](benchmarks.png)
-
 ## Structure
 
 ```
@@ -155,8 +153,8 @@ All the other words are fully inside their zone, and are counted by their respec
 
 ### `make` targets
 
-- `make` builds `mwc`
-- `make test` executes correction tests (see `test.sh`)
+- `make` / `make bin` builds `mwc`
+- `make tests` executes correction tests (see `test.sh`)
 - `make bench` executes performance tests (see `bench.sh`)
 
 ### `test.sh`

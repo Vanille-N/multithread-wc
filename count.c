@@ -3,6 +3,7 @@
 int count_bytes (const char* file) {
     int fd = open(file, O_RDONLY, 0444);
     int pos = lseek(fd, 0, SEEK_END);
+    VERIFY_LSEEK(pos);
     close(fd);
     return pos;
 }
@@ -12,7 +13,8 @@ void* count_lines (void* data) {
     // open file and init variables
     zone_t* zone = (zone_t*)data;
     int fd = open(zone->file, O_RDONLY, 0444);
-    lseek(fd, zone->start, SEEK_CUR);
+    int pos = lseek(fd, zone->start, SEEK_CUR);
+    VERIFY_LSEEK(pos);
     char buf [BUFSIZE];
     int length = zone->end - zone->start;
     int count = 0;
@@ -20,7 +22,8 @@ void* count_lines (void* data) {
     // count by BUFSIZE intervals
     while (length > 0) {
         int iter = BUFSIZE < length ? BUFSIZE : length;
-        read(fd, buf, iter);
+        int err = read(fd, buf, iter);
+        VERIFY_READ(err);
         for (int i = 0; i < iter; i++) {
             if (buf[i] == '\n') count++;
         }
@@ -46,7 +49,8 @@ void* count_words (void* data) {
     // open file and init variables
     zone_t* zone = (zone_t*)data;
     int fd = open(zone->file, O_RDONLY, 0444);
-    lseek(fd, zone->start, SEEK_CUR);
+    int pos = lseek(fd, zone->start, SEEK_CUR);
+    VERIFY_LSEEK(pos);
     char buf [BUFSIZE];
     int length = zone->end - zone->start;
     int count = 0;
@@ -56,7 +60,7 @@ void* count_words (void* data) {
     while (length > 0) {
         int iter = BUFSIZE < length ? BUFSIZE : length;
         int err = read(fd, buf, iter);
-        if (err != 0) { perror("Failed to read: "); exit(err); }
+        VERIFY_READ(err);
         for (int i = 0; i < iter; i++) {
             if (is_endword(buf[i])) {
                 if (!prev_blank) {
@@ -71,10 +75,12 @@ void* count_words (void* data) {
     }
     if (!prev_blank) {
         // last character of the zone could be the end of a word
-        char c;
-        int err = read(fd, &c, 1);
-        if (err != 0) { perror("Failed to read: "); exit(err); }
-        if (is_endword(c) || c == EOF || c == 0) {
+        char c = 0;
+        read(fd, &c, 1);
+        /* we don't check here because failure means end of file,
+         * which is detected by (c == 0).
+         */
+        if (is_endword(c) || c == 0) {
             count++;
         }
     }

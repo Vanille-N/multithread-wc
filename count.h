@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "check.h"
 #include "dispatch.h"
 
 int count_bytes (const char* file);

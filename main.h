@@ -12,11 +12,9 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include "check.h"
 #include "count.h"
 #include "dispatch.h"
 
-#define WR_OPT 1
-#define WR_ARG 2
-#define WR_FILE 3
 
 #endif

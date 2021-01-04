@@ -14,6 +14,8 @@
 #include <pthread.h>
 #include <stdio.h>
 
+#include "check.h"
+
 #define NB_THREADS 4
 
 // tells a thread what he should do

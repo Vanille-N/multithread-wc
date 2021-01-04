@@ -30,15 +30,15 @@ verify() {
 }
 
 echo "Fixed tests"
-for f in tests/*.plain; do
+for f in *.plain; do
     verify "$f"
 done
 echo -e "All fixed tests passed\n"
 
 echo "Random tests"
 for size in {0..100000..5000}; do
-    f="tests/rnd.$size.plain"
-    < /dev/urandom tr -dc '\n\t [:alnum:]' | head -c$size > "$f"
+    f="rnd.$size.plain"
+    ./testmake.sh "$size" > "$f"
     verify "$f"
     rm "$f"
 done

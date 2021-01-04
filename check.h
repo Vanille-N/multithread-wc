@@ -13,4 +13,26 @@
 #define ERR_OP 102 // open failed
 #define ERR_SK 103 // lseek failed
 
+// error handlers
+#define VERIFY_READ(X) { \
+    if ((X) == -1) { \
+        perror("Failed to read. "); \
+        exit(ERR_RD); \
+    } \
+}
+
+#define VERIFY_OPEN(X) { \
+    if ((X) == -1) { \
+        perror("Failed to open. "); \
+        exit(ERR_OP); \
+    } \
+}
+
+#define VERIFY_LSEEK(X) { \
+    if ((X) == -1) { \
+        perror("Failed to seek. "); \
+        exit(ERR_SK); \
+    } \
+}
+
 #endif

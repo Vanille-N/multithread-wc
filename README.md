@@ -14,14 +14,16 @@ Count (w)ords, (l)ines or (c)hars in FILE.
   ├── main.c              argument parsing, calls dispatch
   ├── dispatch.c          thread management, calls count
   ├── count.c             counters
+  ├── check.h             exit codes and error handlers
   ├── *.h
   ├── Makefile
   ├── tests               correction
   │     ├── test.sh         check ./mwc against ./mwc-handout
+  │     ├── testmake.sh     output random chars
   │     └── *.plain         tricky tests
   └── benches             performance
         ├── bench.sh        measure with hyperfine
-        ├── testmake.sh     
+        ├── benchmake.sh    file builder
         └── *.plain         massive tests (not included)
 ````
 
@@ -43,6 +45,11 @@ Argument rules:
 - exactly one file name (otherwise `WR_ARG`)
 - file must exist and have read permissions (otherwise `WR_FILE`)
 - arguments may be in any order
+
+Other failures:
+- `101` if `read` fails
+- `102` if `open` fails
+- `103` if `lseek` fails
 
 ### `dispatch.c`
 
@@ -85,7 +92,7 @@ void* count_lines (void* data);
 void* count_words (void* data);
 ```
 Lowering `BUFSIZE` too much may decrease performance because of too many system calls and bounds checks.
-Conversely, raising it may increase memory consumption.
+Conversely, raising it may increase memory consumption. `64 * 1024` was found to be a good compromise.
 
 `count_bytes` opens the file and returns its length (uses `lseek`, very fast).
 
@@ -169,17 +176,6 @@ For both fixed and random tests, `mwc` is checked against the binary we were giv
 
 `bench.sh` uses [hyperfine](https://github.com/sharkdp/hyperfine) to accurately compare the performance of `mwc`, `mwc-handout` and `wc` on files typically `1M` to `1G` in size.
 
-Those files are not provided with the code, but can be generated with `testmake.sh`.
+Those files are not provided with the code, but can be generated automatically with `benchmake.sh`.
 
 The source code of `bench.sh` needs to be changed to chose which commands to compare and on which files.
-
-### `testmake.sh`
-
-Recommended usage:
-```
-$ cd benches
-$ ./testmake.sh 1000000 > rnd.1M.plain
-$ ./testmake.sh 10000000 > rnd.10M.plain
-$ ./testmake.sh 100000000 > rnd.100M.plain
-$ ./testmake.sh 1000000000 > rnd.1G.plain
-```

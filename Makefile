@@ -2,18 +2,18 @@
 
 bin: mwc
 
-%.c: %.h
-
 NAMES=main count dispatch
 CFILES=$(addsuffix .c, $(NAMES))
-HFILES=$(addsuffix .h, $(NAMES))
+HFILES=$(addsuffix .h, $(NAMES) check)
 
+%.c: %.h check.h
 
 mwc: $(CFILES) $(HFILES)
 	gcc -O3 -o mwc -pthread $(CFILES) -Wall -Werror -Wpedantic
 
 tests: mwc
-	BIN=./mwc WITNESS=./mwc-handout tests/test.sh
+	cd tests; \
+		BIN=../mwc WITNESS=../mwc-handout ./test.sh
 
 bench:
 	./benches/bench.sh

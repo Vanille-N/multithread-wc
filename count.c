@@ -77,9 +77,8 @@ void* count_words (void* data) {
         // last character of the zone could be the end of a word
         char c = 0;
         read(fd, &c, 1);
-        /* we don't check here because failure means end of file,
-         * which is detected by (c == 0).
-         */
+        // we don't check here because failure means end of file,
+        // which is detected by (c == 0).
         if (is_endword(c) || c == 0) {
             count++;
         }

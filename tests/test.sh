@@ -37,7 +37,7 @@ echo -e "All fixed tests passed\n"
 
 echo "Random tests"
 for size in {0..100000..5000}; do
-    f="rnd.$size.plain"
+    f="_rnd.$size.plain"
     ./testmake.sh "$size" > "$f"
     verify "$f"
     rm "$f"

@@ -69,8 +69,9 @@ int dispatch (const char* file, void* counter (void*));
 `NB_THREADS` may safely be set to any reasonable strictly positive value to adjust to the number of cores available.
 
 A `zone_t` describes the work each thread has to do : `file` is the name of the file they have to open, `start` and `end` delimit the area of the file they have to consider, `count` serves as a return value.
+`file` being a field of the `zone_t` rather than a single global variable would make it somewhat easier to adapt `mwc` to analyse several files in parallel.
 
-Threads have no obligation to check that the file exists or to ensure their zone is valid (`0 <= start <= end <= size(file)`), it is `dispatch`'s role to ensure they are.
+Threads have no obligation to check that the file exists or to ensure their zone is valid (`0 <= start <= end <= size(file)`), it is `dispatch`'s role to ensure they are. They will nevertheless abort gracefully with the appropriate error code if some operation were to fail.
 
 More precisely, `dispatch` :
 - determines the length of the file
@@ -98,7 +99,7 @@ Conversely, raising it may increase memory consumption. `64 * 1024` was found to
 
 ```
 fun count_bytes(file)
-    open f as fd
+    open file as fd
     go to end of fd
     return position of cursor in fd
 ```
@@ -179,3 +180,12 @@ For both fixed and random tests, `mwc` is checked against the binary we were giv
 Those files are not provided with the code, but can be generated automatically with `benchmake.sh`.
 
 The source code of `bench.sh` needs to be changed to chose which commands to compare and on which files.
+
+### In short
+To test everything:
+```sh
+$ make
+$ make tests
+$ ./benches/benchmake.sh
+$ make bench
+```
